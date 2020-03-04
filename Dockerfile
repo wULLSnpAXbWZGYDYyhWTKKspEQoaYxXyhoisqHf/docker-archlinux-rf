@@ -1,4 +1,5 @@
-FROM archlinux
+FROM archlinux/base
+
 RUN pacman -Syu --noconfirm --needed python python-pip wget tar chromium \
     && pacman -Scc \
     && rm -rfv /var/cache/pacman/* /var/lib/pacman/sync/* \

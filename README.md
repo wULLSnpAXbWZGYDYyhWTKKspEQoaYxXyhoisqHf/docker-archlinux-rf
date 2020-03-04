@@ -3,7 +3,7 @@
 This repository provides the Dockerfile to create a Docker image used to run robotframework tests
 
 ## What you get
-* updated Arch Linux [base image](https://hub.docker.com/_/archlinux)
+* updated Arch Linux [base image](https://hub.docker.com/r/archlinux/base)
 * python3
 * robot framework
 * selenium library

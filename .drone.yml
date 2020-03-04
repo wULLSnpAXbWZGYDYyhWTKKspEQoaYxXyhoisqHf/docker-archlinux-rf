@@ -1,0 +1,89 @@
+---
+kind: pipeline
+name: dockerhub-build-trigger
+
+platform:
+  arch: amd64
+
+steps:
+- name: call webhook
+  pull: always
+  image: curlimages/curl
+  environment:
+    ENDPOINT:
+      from_secret: dockerhub_endpoint
+  commands:
+  - curl -X POST $ENDPOINT
+
+
+---
+kind: pipeline
+name: notifications
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  disable: true
+
+trigger:
+  branch:
+    - master
+    - "release/*"
+  event:
+    - push
+    - tag
+  status:
+    - success
+    - failure
+
+depends_on:
+  - dockerhub-build-trigger
+
+steps:
+  - name: discord
+    pull: always
+    image: appleboy/drone-discord:1.2.4
+    settings:
+      message: "{{#success build.status}} ✅  Build #{{build.number}} of `{{repo.name}}` succeeded.\n\n📝 Commit by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n🌐 {{ build.link }} {{else}} ❌  Build #{{build.number}} of `{{repo.name}}` failed.\n\n📝 Commit by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n🌐 {{ build.link }} {{/success}}\n"
+      webhook_id:
+        from_secret: discord_webhook_id
+      webhook_token:
+        from_secret: discord_webhook_token
+
+
+---
+kind: pipeline
+name: notifications-cronbuild
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  disable: true
+
+trigger:
+  event:
+    - cron
+  cron:
+    - hourly
+    - hourly-build
+  status:
+    - success
+    - failure
+
+depends_on:
+  - dockerhub-build-trigger
+
+steps:
+  - name: discord
+    pull: always
+    image: appleboy/drone-discord:1.2.4
+    settings:
+      message: "{{#success build.status}} ✅  Build #{{build.number}} of `{{repo.name}}` succeeded.\n\n📝 Commit by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n🌐 {{ build.link }} {{else}} ❌  Build #{{build.number}} of `{{repo.name}}` failed.\n\n📝 Commit by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n🌐 {{ build.link }} {{/success}}\n"
+      webhook_id:
+        from_secret: discord_webhook_hourly_id
+      webhook_token:
+        from_secret: discord_webhook_hourly_token

@@ -13,7 +13,7 @@ steps:
     ENDPOINT:
       from_secret: dockerhub_endpoint
   commands:
-  - curl -X POST $ENDPOINT
+  - curl -s -X POST $ENDPOINT
 
 
 ---

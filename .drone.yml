@@ -46,7 +46,7 @@ steps:
     pull: always
     image: appleboy/drone-discord:1.2.4
     settings:
-      message: "{{#success build.status}} ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.\n\ncommit `${DRONE_COMMIT_SHA:0:1}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n{{ build.link }}\n {{else}} ❌  Build #{{build.number}} of `{{repo.name}}` failed.\ncommit `${DRONE_COMMIT_SHA:0:7}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n{{ build.link }}\n {{/success}}\n"
+      message: "{{#success build.status}} ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.\n\ncommit `${DRONE_COMMIT_SHA:0:7}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n{{ build.link }}\n {{else}} ❌  Build #{{build.number}} of `{{repo.name}}` failed.\ncommit `${DRONE_COMMIT_SHA:0:7}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n{{ build.link }}\n {{/success}}\n"
       webhook_id:
         from_secret: discord_webhook_id
       webhook_token:
@@ -82,7 +82,7 @@ steps:
     pull: always
     image: appleboy/drone-discord:1.2.4
     settings:
-      message: "{{#success build.status}} ✅ Hourly build #{{build.number}} of `{{repo.name}}` succeeded.\n\ncommit `${DRONE_COMMIT_SHA:0:1}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n{{ build.link }}\n {{else}} ❌  Build #{{build.number}} of `{{repo.name}}` failed.\ncommit `${DRONE_COMMIT_SHA:0:7}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n{{ build.link }}\n {{/success}}\n"
+      message: "{{#success build.status}} ✅ Hourly build #{{build.number}} of `{{repo.name}}` succeeded.\n\ncommit `${DRONE_COMMIT_SHA:0:7}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```{{ build.link }}\n {{else}} ❌  Build #{{build.number}} of `{{repo.name}}` failed.\ncommit `${DRONE_COMMIT_SHA:0:7}` by {{commit.author}} on `{{commit.branch}}`:\n``` {{commit.message}} ```\n\n{{ build.link }}\n {{/success}}\n"
       webhook_id:
         from_secret: discord_webhook_hourly_id
       webhook_token:

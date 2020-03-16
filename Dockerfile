@@ -29,7 +29,7 @@ RUN pip install robotframework robotframework-seleniumlibrary \
     pacman --noconfirm -Runs \
     gzip less sysfsutils which \
     && pacman --noconfirm -R \
-    util-linux fakeroot shadow \
+    util-linux shadow \
     && rm -rv /usr/share/info/* \
     && rm -rv /usr/share/man/* \
     && rm -rv /usr/share/doc/* \

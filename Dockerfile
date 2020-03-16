@@ -28,8 +28,7 @@ RUN pip install robotframework robotframework-seleniumlibrary \
     # improved clean-up thanks to this: https://github.com/yantis/docker-archlinux-tiny
     pacman --noconfirm -Runs \
     gzip less sysfsutils which \
-    && pacman --noconfirm -R \
-    util-linux shadow \
+    && pacman --noconfirm -R shadow \
     && rm -rv /usr/share/info/* \
     && rm -rv /usr/share/man/* \
     && rm -rv /usr/share/doc/* \

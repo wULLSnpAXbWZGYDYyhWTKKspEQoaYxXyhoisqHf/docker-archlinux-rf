@@ -11,15 +11,38 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/wULLSnpAXbWZGYDYyhWTKKspEQoaYxXyhoisqHf/docker-archlinux-rf.git" \
       org.label-schema.vcs-ref=$VCS_REF
 
-ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip ./chromedriver.zip
+ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip /tmp/chromedriver.zip
 
+WORKDIR=/tmp
 
 RUN pacman -Syu --noconfirm --needed python python-pip chromium \
     && pacman -Scc \
     && rm -rfv /var/cache/pacman/* /var/lib/pacman/sync/* \
 
 RUN pip install robotframework robotframework-seleniumlibrary \
-    && bsdtar xfv ./chromedriver.zip && rm -v ./chromedriver.zip \
-    && chmod -v +x ./chromedriver \
+    && bsdtar xfv /tmp/chromedriver.zip && rm -v /tmp/chromedriver.zip \
+    && chmod -v +x /tmp/chromedriver \
     && mkdir -pv /usr/local/bin \
-    && mv -v ./chromedriver /usr/local/bin/
+    && mv -v /tmp/chromedriver /usr/local/bin/
+
+# improved clean-up thanks to this: https://github.com/yantis/docker-archlinux-tiny
+RUN pacman --noconfirm -Runs \
+    binutils gcc make autoconf \
+    gzip sudo gettext less sysfsutils \
+    which iproute2 procps-ng iputils \
+    && pacman --noconfirm -R \
+    util-linux fakeroot shadow \
+    && rm -rv /usr/share/info/* \
+    && rm -rv /usr/share/man/* \
+    && rm -rv /usr/share/doc/* \
+    && rm -rv /usr/share/zoneinfo/* \
+    && rm -rv /usr/share/i18n/* \
+    && find /. -name "*~" -type f -delete \
+    && find /usr/share/terminfo/. ! -name "*xterm*" ! -name "*screen*" ! -name "*screen*" -type f -delete \
+    && rm -rv /tmp/* \
+    && rm -rv /usr/include/* \
+    && pacman --noconfirm -Runs tar gawk \
+    && pacman -Scc \
+    && rm -rv /var/cache/pacman/* /var/lib/pacman/sync/* \
+
+WORKDIR=/

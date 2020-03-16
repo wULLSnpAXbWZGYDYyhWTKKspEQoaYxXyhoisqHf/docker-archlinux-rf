@@ -15,20 +15,16 @@ ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedr
 
 WORKDIR /tmp
 
-RUN pacman -Syu --noconfirm --needed python python-pip chromium \
-    && pacman -Scc \
-    && rm -rfv /var/cache/pacman/* /var/lib/pacman/sync/* \
+RUN pacman -Syu --noconfirm --needed python python-pip chromium
 
 RUN pip install robotframework robotframework-seleniumlibrary \
     && bsdtar xfv /tmp/chromedriver.zip && rm -v /tmp/chromedriver.zip \
     && chmod -v +x /tmp/chromedriver \
     && mkdir -pv /usr/local/bin \
-    && mv -v /tmp/chromedriver /usr/local/bin/ && \
+    && mv -v /tmp/chromedriver /usr/local/bin/
 
-    # improved clean-up thanks to this: https://github.com/yantis/docker-archlinux-tiny
-    pacman --noconfirm -Runs \
+RUN pacman --noconfirm -Runs \
     gzip less sysfsutils which \
-    && pacman --noconfirm -R shadow \
     && rm -rv /usr/share/info/* \
     && rm -rv /usr/share/man/* \
     && rm -rv /usr/share/doc/* \
@@ -38,8 +34,8 @@ RUN pip install robotframework robotframework-seleniumlibrary \
     && find /usr/share/terminfo/. ! -name "*xterm*" ! -name "*screen*" ! -name "*screen*" -type f -delete \
     && rm -rv /tmp/* \
     && rm -rv /usr/include/* \
-    && pacman --noconfirm -Runs tar gawk \
+    && pacman --noconfirm -Runs tar gawk || true \
     && pacman -Scc \
-    && rm -rv /var/cache/pacman/* /var/lib/pacman/sync/* \
+    && rm -rv /var/cache/pacman/* /var/lib/pacman/sync/*
 
 WORKDIR /

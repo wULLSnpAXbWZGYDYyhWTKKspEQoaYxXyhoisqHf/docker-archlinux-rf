@@ -13,7 +13,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip /tmp/chromedriver.zip
 
-WORKDIR=/tmp
+WORKDIR /tmp
 
 RUN pacman -Syu --noconfirm --needed python python-pip chromium \
     && pacman -Scc \
@@ -45,4 +45,4 @@ RUN pacman --noconfirm -Runs \
     && pacman -Scc \
     && rm -rv /var/cache/pacman/* /var/lib/pacman/sync/* \
 
-WORKDIR=/
+WORKDIR /

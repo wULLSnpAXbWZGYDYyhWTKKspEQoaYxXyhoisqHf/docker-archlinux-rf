@@ -23,10 +23,10 @@ RUN pip install robotframework robotframework-seleniumlibrary \
     && bsdtar xfv /tmp/chromedriver.zip && rm -v /tmp/chromedriver.zip \
     && chmod -v +x /tmp/chromedriver \
     && mkdir -pv /usr/local/bin \
-    && mv -v /tmp/chromedriver /usr/local/bin/
+    && mv -v /tmp/chromedriver /usr/local/bin/ && \
 
-# improved clean-up thanks to this: https://github.com/yantis/docker-archlinux-tiny
-RUN pacman --noconfirm -Runs \
+    # improved clean-up thanks to this: https://github.com/yantis/docker-archlinux-tiny
+    pacman --noconfirm -Runs \
     binutils gcc make autoconf \
     gzip sudo gettext less sysfsutils \
     which iproute2 procps-ng iputils \

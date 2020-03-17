@@ -1,4 +1,4 @@
-FROM archlinux/base
+FROM archlinux/base:latest
 
 ENV CHROMEDRIVER_VERSION="80.0.3987.106"
 
@@ -14,16 +14,13 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip /tmp/chromedriver.zip
 
 WORKDIR /tmp
-
-RUN pacman -Syu --noconfirm --needed python python-pip chromium
-
-RUN pip install robotframework robotframework-seleniumlibrary \
+RUN pacman -Sy --noconfirm --needed python python-pip chromium \
+    && pip install robotframework robotframework-seleniumlibrary \
     && bsdtar xfv /tmp/chromedriver.zip && rm -v /tmp/chromedriver.zip \
     && chmod -v +x /tmp/chromedriver \
     && mkdir -pv /usr/local/bin \
-    && mv -v /tmp/chromedriver /usr/local/bin/
-
-RUN pacman --noconfirm -Runs \
+    && mv -v /tmp/chromedriver /usr/local/bin/ \
+    && pacman --noconfirm -Runs \
     gzip less sysfsutils which \
     && rm -rv /usr/share/info/* \
     && rm -rv /usr/share/man/* \
@@ -37,5 +34,4 @@ RUN pacman --noconfirm -Runs \
     && pacman --noconfirm -Runs tar gawk || true \
     && pacman -Scc \
     && rm -rv /var/cache/pacman/* /var/lib/pacman/sync/*
-
 WORKDIR /

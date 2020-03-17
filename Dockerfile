@@ -1,4 +1,4 @@
-FROM archlinux/base:latest
+FROM archlinux:latest
 
 ENV CHROMEDRIVER_VERSION="80.0.3987.106"
 

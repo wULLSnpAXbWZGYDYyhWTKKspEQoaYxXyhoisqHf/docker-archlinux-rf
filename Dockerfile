@@ -15,7 +15,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip /tmp/chromedriver.zip
 
 WORKDIR /tmp/
-RUN pacman -Sy --noconfirm --needed python python-pip chromium \
+RUN pacman -Sy --noconfirm --needed python python-pip chromium wget vim jq \
     && pip install robotframework robotframework-seleniumlibrary \
     && bsdtar xfv /tmp/chromedriver.zip && rm -v /tmp/chromedriver.zip \
     && chmod -v +x /tmp/chromedriver \
@@ -32,7 +32,6 @@ RUN pacman -Sy --noconfirm --needed python python-pip chromium \
     && find /usr/share/terminfo/. ! -name "*xterm*" ! -name "*screen*" ! -name "*screen*" -type f -delete \
     && rm -rv /tmp/* \
     && rm -rv /usr/include/* \
-    && pacman --noconfirm -Runs tar gawk || true \
     && pacman -Scc \
     && rm -rv /var/cache/pacman/* /var/lib/pacman/sync/*
 WORKDIR /

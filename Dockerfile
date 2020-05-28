@@ -28,5 +28,6 @@ RUN pacman -Syu --noconfirm --needed python python-pip chromium wget vim finduti
 RUN pacman -Scc && rm -rf /var/cache/pacman/* /var/lib/pacman/sync/* \
     && rm -rf /usr/share/i18n/* ; rm -rf /usr/include/* ; \
     find /. -name "*~" -type f -delete; \
-    find /usr/share/terminfo/. ! -name "*xterm*" ! -name "*screen*" ! -name "*screen*" -type f -delete;
+    find /usr/share/terminfo/. ! -name "*xterm*" ! -name "*screen*" ! -name "*screen*" -type f -delete; \
+    mkdir -pv /testing
 WORKDIR /

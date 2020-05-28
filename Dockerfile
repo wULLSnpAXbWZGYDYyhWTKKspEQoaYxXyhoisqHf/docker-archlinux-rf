@@ -19,7 +19,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip /tmp/chromedriver.zip
 
 WORKDIR /tmp/
-RUN pacman -Sy --noconfirm --needed python python-pip chromium wget vim findutils \
+RUN pacman -Syu --noconfirm --needed python python-pip chromium wget vim findutils \
     && pip install robotframework robotframework-seleniumlibrary b2 \
     && bsdtar xfv /tmp/chromedriver.zip && rm -v /tmp/chromedriver.zip \
     && chmod -v +x /tmp/chromedriver \

@@ -1,4 +1,4 @@
-FROM archlinux:latest
+FROM immawanderer/archlinux:latest
 
 ENV CHROMEDRIVER_VERSION="83.0.4103.39"
 ENV SCREEN_MAIN_DEPTH=24

@@ -15,9 +15,9 @@ trigger:
   event:
     - push
     - cron
-  cron:
-    - hourly
-    - hourly-build
+  target:
+    exclude:
+    - nightly
   status:
     - success
     - failure

@@ -60,8 +60,9 @@ steps:
   environment:
     ENDPOINT:
       from_secret: dockerhub_endpoint_nightly
+    LOVEYML: -H 'Content-Type:application/json' --data '{"docker_tag":"nightly"}'
   commands:
-  - curl -H 'Content-Type:application/json' --data '{"docker_tag":"nightly"}' -X POST $ENDPOINT
+  - curl $LOVEYML -X POST $ENDPOINT
 
 
 ---

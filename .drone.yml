@@ -32,7 +32,7 @@ steps:
   commands:
     - apk add --no-cache curl
     - curl -sO https://git.dotya.ml/wanderer/docker-archlinux-rf/raw/branch/master/curl.it
-    - ./curl.it $ENDPOINT
+    - /bin/bash ./curl.it $ENDPOINT
 
 
 ---
@@ -65,7 +65,7 @@ steps:
   commands:
     - apk add --no-cache curl
     - curl -sO https://git.dotya.ml/wanderer/docker-archlinux-rf/raw/branch/master/curl.it
-    - ./curl.it -n $ENDPOINT
+    - /bin/bash ./curl.it -n $ENDPOINT
 
 
 ---

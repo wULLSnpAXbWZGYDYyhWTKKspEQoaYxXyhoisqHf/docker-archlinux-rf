@@ -31,6 +31,15 @@ platform:
 clone:
   disable: true
 
+trigger:
+  event:
+    - cron
+  cron:
+    - nightly
+  status:
+    - success
+    - failure
+
 steps:
 - name: call webhook
   pull: always

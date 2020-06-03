@@ -3,7 +3,11 @@ kind: pipeline
 name: dockerhub-build-trigger
 
 platform:
+  os: linux
   arch: amd64
+
+clone:
+  disable: true
 
 steps:
 - name: call webhook
@@ -30,7 +34,6 @@ clone:
 trigger:
   branch:
     - master
-    - "release/*"
   event:
     - push
     - tag

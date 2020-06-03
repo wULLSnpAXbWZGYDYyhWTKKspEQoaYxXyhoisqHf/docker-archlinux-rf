@@ -9,6 +9,17 @@ platform:
 clone:
   disable: true
 
+trigger:
+  event:
+    - push
+    - cron
+  cron:
+    - hourly
+    - hourly-build
+  status:
+    - success
+    - failure
+
 steps:
 - name: call webhook
   pull: always

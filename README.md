@@ -7,6 +7,9 @@
 
 This repository provides the Dockerfile to create a Docker image used to run [robot framework](https://robotframework.org) tests.
 
+push mirror lives in [this GitHub repo](https://github.com/wULLSnpAXbWZGYDYyhWTKKspEQoaYxXyhoisqHf/docker-archlinux-rf)  
+development happens on [this Gitea instance](https://git.dotya.ml/wanderer/docker-archlinux-rf)
+
 ## What you get
 * updated Arch Linux [image](https://hub.docker.com/r/immawanderer/archlinux) based on [base image](https://hub.docker.com/_/archlinux)
 * python3

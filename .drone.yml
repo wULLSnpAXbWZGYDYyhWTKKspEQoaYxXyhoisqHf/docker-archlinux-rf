@@ -96,7 +96,6 @@ steps:
           ✅ [Build #{{build.number}}]({{build.link}}) of `{{repo.name}}` succeeded.
           event: **`{{build.event}}`**
           commit [`${DRONE_COMMIT_SHA:0:7}`](https://git.dotya.ml/${DRONE_REPO}/commit/${DRONE_COMMIT_SHA}) by {{commit.author}} on `{{commit.branch}}`
-          ```{{commit.message}}```
         {{else}}
           ❌ [Build #{{build.number}}]({{build.link}}) of `{{repo.name}}` failed.
           event: **`${DRONE_BUILD_EVENT}`**

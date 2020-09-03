@@ -18,9 +18,6 @@ trigger:
   target:
     exclude:
     - nightly
-  status:
-    - success
-    - failure
 
 steps:
 - name: call webhook
@@ -51,9 +48,6 @@ trigger:
     - cron
   cron:
     - nightly
-  status:
-    - success
-    - failure
 
 steps:
 - name: call webhook

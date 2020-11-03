@@ -9,16 +9,6 @@ platform:
 clone:
   disable: true
 
-trigger:
-  branch:
-    - master
-  event:
-    - push
-    - cron
-  target:
-    exclude:
-    - nightly
-
 steps:
 - name: call webhook
   pull: always
@@ -30,36 +20,6 @@ steps:
     - apk add --no-cache curl
     - curl -sO https://git.dotya.ml/wanderer/docker-archlinux-rf/raw/branch/master/curl.it
     - bash ./curl.it $ENDPOINT
-
-
----
-kind: pipeline
-name: dockerhub-build-trigger-nightly
-
-platform:
-  os: linux
-  arch: amd64
-
-clone:
-  disable: true
-
-trigger:
-  event:
-    - cron
-  cron:
-    - nightly
-
-steps:
-- name: call webhook
-  pull: always
-  image: bash:latest
-  environment:
-    ENDPOINT:
-      from_secret: dockerhub_endpoint_nightly
-  commands:
-    - apk add --no-cache curl
-    - curl -sO https://git.dotya.ml/wanderer/docker-archlinux-rf/raw/branch/master/curl.it
-    - bash ./curl.it -n $ENDPOINT
 
 
 ---
@@ -122,8 +82,7 @@ trigger:
   event:
     - cron
   cron:
-    - hourly
-    - hourly-build
+    - nightly
   status:
     - success
     - failure
@@ -138,55 +97,12 @@ steps:
     settings:
       message: >
         {{#success build.status}}
-          ✅ [Cron build #{{build.number}}]({{build.link}}) of `{{repo.name}}` succeeded.
+          ✅ [Nightly build #{{build.number}}]({{build.link}}) of `{{repo.name}}` succeeded.
           event: **`{{build.event}}`**
           commit [`${DRONE_COMMIT_SHA:0:7}`](https://git.dotya.ml/${DRONE_REPO}/commit/${DRONE_COMMIT_SHA}) by {{commit.author}} on `{{commit.branch}}`
         {{else}}
-          ❌ [Cron build #{{build.number}}]({{build.link}}) of `{{repo.name}}` failed.
+          ❌ [Nightly build #{{build.number}}]({{build.link}}) of `{{repo.name}}` failed.
           event: **`${DRONE_BUILD_EVENT}`**
-          commit [`${DRONE_COMMIT_SHA:0:7}`](https://git.dotya.ml/${DRONE_REPO}/commit/${DRONE_COMMIT_SHA}) by {{commit.author}} on `{{commit.branch}}`
-        {{/success}}
-      webhook_id:
-        from_secret: discord_webhook_hourly_id
-      webhook_token:
-        from_secret: discord_webhook_hourly_token
-      username: drone-hourly
-
----
-kind: pipeline
-name: notifications-cronbuild-nightly
-
-platform:
-  os: linux
-  arch: amd64
-
-clone:
-  disable: true
-
-trigger:
-  event:
-    - cron
-  cron:
-    - nightly
-  status:
-    - success
-    - failure
-
-depends_on:
-  - dockerhub-build-trigger-nightly
-
-steps:
-  - name: discord
-    pull: always
-    image: appleboy/drone-discord:1.2.4
-    settings:
-      message: >
-        {{#success build.status}}
-          ✅ [Cron build #{{build.number}}]({{build.link}}) of `{{repo.name}}` succeeded.
-          event: **`{{build.event}}`**
-          commit [`${DRONE_COMMIT_SHA:0:7}`](https://git.dotya.ml/${DRONE_REPO}/commit/${DRONE_COMMIT_SHA}) by {{commit.author}} on `{{commit.branch}}`
-        {{else}}
-          ❌ [Cron build #{{build.number}}]({{build.link}}) of `{{repo.name}}` failed.\nevent: **`${DRONE_BUILD_EVENT}`**
           commit [`${DRONE_COMMIT_SHA:0:7}`](https://git.dotya.ml/${DRONE_REPO}/commit/${DRONE_COMMIT_SHA}) by {{commit.author}} on `{{commit.branch}}`
         {{/success}}
       webhook_id:

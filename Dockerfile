@@ -10,7 +10,7 @@ ARG VCS_REF
 LABEL description="Docker image for running tests using robot framework."
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.vcs-url="https://github.com/wULLSnpAXbWZGYDYyhWTKKspEQoaYxXyhoisqHf/docker-archlinux-rf.git" \
+      org.label-schema.vcs-url="https://git.dotya.ml/wanderer/docker-archlinux-rf.git" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.license=GPL-3.0
 

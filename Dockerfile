@@ -1,4 +1,9 @@
-FROM immawanderer/archlinux:latest
+# syntax=docker/dockerfile:1.2
+# refs:
+#   https://docs.docker.com/develop/develop-images/build_enhancements/#overriding-default-frontends
+#   https://pythonspeed.com/articles/docker-buildkit/
+
+FROM immawanderer/archlinux:linux-amd64
 
 ENV CHROMEDRIVER_VERSION="83.0.4103.39"
 ENV SCREEN_MAIN_DEPTH=24
@@ -18,7 +23,7 @@ ADD https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedr
 
 WORKDIR /tmp/
 RUN pacman -Syu --noconfirm --needed python python-pip chromium wget vim findutils \
-    && pip install robotframework robotframework-seleniumlibrary b2 \
+    && pip install --no-cache-dir robotframework robotframework-seleniumlibrary b2 \
     && bsdtar xfv /tmp/chromedriver.zip && rm -v /tmp/chromedriver.zip \
     && chmod -v +x /tmp/chromedriver \
     && mkdir -pv /usr/local/bin \

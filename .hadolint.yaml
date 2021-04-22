@@ -1,0 +1,3 @@
+ignored:
+  # ad "DL3013" ignoring recommendation to pin pip package versions
+  - DL3013
